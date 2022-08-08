@@ -1,15 +1,16 @@
 import moment from 'moment';
 import React, { FC, useMemo, useState } from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList } from 'react-native';
 
-import { StyledDateCard, StyledRNAppointmentCalendarContainer } from './rnAppointmentCalendarStyle';
+import { BaseCardDateText, StyledDateCard, StyledRNAppointmentCalendarContainer } from './rnAppointmentCalendarStyle';
 
 export interface IDates {
   id: string;
   day: string;
   month: string;
   year: string;
-  selected: boolean;
+  isCurrentDate: boolean;
+  isSelected: boolean;
 }
 
 export interface IRNSlideCalendar {
@@ -21,6 +22,7 @@ export interface IRNSlideCalendar {
 export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
   //Variables
   const { initialDate = moment().toDate(), onSelect, monthRange = 11 } = props;
+  const date = moment().toDate();
   const dateFormat = 'YYYY-M-D';
   const initialMonth = initialDate.getMonth();
   const initialYear = initialDate.getFullYear();
@@ -30,8 +32,8 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
 
   const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-  const isSelectedDate = ({ day, month, year }) => {
-    return moment(activeDate).format(dateFormat) === `${year}-${month}-${day}`;
+  const isSelectedDate = ({ date, day, month, year }) => {
+    return moment(date).format(dateFormat) === `${year}-${month}-${day}`;
   };
 
   const generateCalendar = useMemo(() => {
@@ -51,7 +53,8 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
           day: `0${day.toString()}`.slice(-2),
           month: `0${month.toString()}`.slice(-2),
           year: year.toString(),
-          selected: isSelectedDate({ day, month, year })
+          isCurrentDate: isSelectedDate({ date, day, month, year }),
+          isSelected: isSelectedDate({ date: activeDate, day, month, year })
         });
       }
     }
@@ -62,19 +65,39 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
   const renderItem = ({ item }) => {
     return (
       <StyledDateCard
-        selectedBgColor={item.selected && '#328ae8'}
+        selectedDateBgColor={item.isSelected && '#328ae8'}
         onPress={() => {
-          setActiveDate(
-            moment(`${item.year.toString()}-${item.month.toString()}-${item.day.toString()}`, dateFormat).toDate()
-          );
+          setActiveDate(moment(`${item.year}-${item.month}-${item.day}`, dateFormat).toDate());
         }}
       >
-        <Text>
-          {moment(`${item.year.toString()}-${item.month.toString()}-${item.day.toString()}`, dateFormat)
-            .format('dd')
-            .toString()}
-        </Text>
-        <Text>{item.day.toString()}</Text>
+        <BaseCardDateText
+          fontSize={12}
+          selectedDateColor={item.isSelected && '#FFFFFF'}
+          currentDateColor={item.isCurrentDate && '#328ae8'}
+        >
+          {moment(`${item.year}-${item.month}-${item.day}`, dateFormat).format('dd').toString()}
+        </BaseCardDateText>
+        <BaseCardDateText
+          fontSize={20}
+          selectedDateColor={item.isSelected && '#FFFFFF'}
+          currentDateColor={item.isCurrentDate && '#328ae8'}
+        >
+          {item.day}
+        </BaseCardDateText>
+        <BaseCardDateText
+          fontSize={14}
+          selectedDateColor={item.isSelected && '#FFFFFF'}
+          currentDateColor={item.isCurrentDate && '#328ae8'}
+        >
+          {item.month}
+        </BaseCardDateText>
+        <BaseCardDateText
+          fontSize={10}
+          selectedDateColor={item.isSelected && '#FFFFFF'}
+          currentDateColor={item.isCurrentDate && '#328ae8'}
+        >
+          {item.year}
+        </BaseCardDateText>
       </StyledDateCard>
     );
   };

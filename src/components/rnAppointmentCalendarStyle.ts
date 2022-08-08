@@ -1,11 +1,19 @@
+import { Text } from 'react-native';
 import styled from 'styled-components';
 
 import { BaseTouchableOpacity, BaseView } from '../globalStyle';
 import { isEmpty } from '../utils/commonUtil';
 
 interface IStyledRNSlideCalendarDateCard {
-  selectedBgColor?: string;
-  selectedColor?: string;
+  selectedDateBgColor?: string;
+  selectedDateColor?: string;
+  currentDateColor?: string;
+}
+
+interface IStyledRNSlideCalendarDateCardText {
+  selectedDateColor?: string;
+  currentDateColor?: string;
+  fontSize: number;
 }
 
 export const StyledRNAppointmentCalendarContainer = styled(BaseView)`
@@ -23,5 +31,13 @@ export const StyledDateCard = styled(BaseTouchableOpacity)<IStyledRNSlideCalenda
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 6px;
-  ${(props) => !isEmpty(props.selectedBgColor) && `background-color:${props.selectedBgColor};`}
+  ${(props) => !isEmpty(props.selectedDateBgColor) && `background-color:${props.selectedDateBgColor};`}
+  ${(props) => !isEmpty(props.selectedDateColor) && `color:${props.selectedDateColor};`}
+`;
+
+export const BaseCardDateText = styled(Text)<IStyledRNSlideCalendarDateCardText>`
+  ${(props) => !isEmpty(props.fontSize) && `font-size: ${props.fontSize}px;`}
+  ${(props) => !isEmpty(props.selectedDateColor) && `color: ${props.selectedDateColor};`}
+  ${(props) =>
+    !isEmpty(props.currentDateColor) && isEmpty(props.selectedDateColor) && `color: ${props.currentDateColor};`}
 `;
