@@ -9,7 +9,8 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod": "cd ios && pod install && cd ..",
-    "pod:clean": "rm -rf ios/Pods ios/Podfile.lock && cd ios && pod install && cd .."
+    "pod:clean": "rm -rf ios/Pods ios/Podfile.lock && cd ios && pod install && cd ..",
+    "adb:tcp:reverse": "adb reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
     "react": "18.0.0",
