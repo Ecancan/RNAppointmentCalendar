@@ -58,7 +58,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "moment": "*"
   },
   "jest": {
     "preset": "react-native",
