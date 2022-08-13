@@ -64,6 +64,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
     onDateTimeSelect
   } = props;
 
+  const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const _date = moment().toDate();
   const _dateFormat = 'YYYY-MM-DD';
   const initialMonth = _date.getMonth();
@@ -77,8 +78,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
     (activeDate && (isMultipleTimeSelect ? [moment(date).format('HH:mm')] : moment(date).format('HH:mm'))) || undefined
   );
 
-  const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
+  // Functions
   const isSelectedDate = ({ date, day, month, year }) => {
     return moment(date).format(_dateFormat) === moment(`${year}-${month}-${day}`).format(_dateFormat);
   };
@@ -210,6 +210,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
     [activeDate, activeTime]
   );
 
+  // Hooks
   useEffect(() => {
     activeDate && onDateSelect?.(moment(activeDate).format(format));
   }, [activeDate]);
