@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod": "cd ios && pod install && cd ..",
     "pod:clean": "rm -rf ios/Pods ios/Podfile.lock && cd ios && pod install && cd ..",
-    "adb:tcp:reverse": "adb reverse tcp:8081 tcp:8081"
+    "adb:tcp:reverse": "adb reverse tcp:8081 tcp:8081",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "react": "18.0.0",

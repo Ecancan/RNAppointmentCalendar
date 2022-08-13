@@ -40,6 +40,7 @@ const App = () => {
       <RNAppointmentCalendar
         date={'2022-08-15 12:30'}
         withTimes={true}
+        monthRange={2}
         disabledDates={disabledDates}
         isMultipleTimeSelect={true}
         onDateSelect={(date) => console.log('date', date)}
