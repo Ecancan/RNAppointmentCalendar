@@ -11,7 +11,7 @@ yarn add react-native-appointment-calendar
 ```
 ##### With Npm
 ```
-yarn add react-native-appointment-calendar
+npm install react-native-appointment-calendar
 ```
 This module just made with javascript. There isn't have any native module in this module.
 So no need any linking or pod installing.
