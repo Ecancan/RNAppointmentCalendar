@@ -5,9 +5,13 @@ import { BaseTouchableOpacity, BaseView } from '../globalStyle';
 import { isEmpty } from '../utils/commonUtil';
 
 interface IStyledRNSlideCalendarDateCard {
-  selectedDateBgColor?: string;
-  selectedDateColor?: string;
+  selectedBgColor?: string;
+  selectedColor?: string;
   currentDateColor?: string;
+  disabled?: string;
+  isBooked?: boolean;
+  isSelected?: boolean;
+  isCurrentDate?: boolean;
 }
 
 interface IStyledRNSlideCalendarDateCardText {
@@ -32,15 +36,14 @@ export const StyledDateCard = styled(BaseTouchableOpacity)<IStyledRNSlideCalenda
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 6px;
-  ${(props) => !isEmpty(props.selectedDateBgColor) && `background-color:${props.selectedDateBgColor};`}
-  ${(props) => !isEmpty(props.selectedDateColor) && `color:${props.selectedDateColor};`}
+  ${(props) => !isEmpty(props.isSelected) && `background-color:${props.selectedBgColor};`}
+  ${(props) => !isEmpty(props.disabled) && `opacity:0.5;`}
 `;
 
 export const BaseCardDateText = styled(Text)<IStyledRNSlideCalendarDateCardText>`
   ${(props) => !isEmpty(props.fontSize) && `font-size: ${props.fontSize}px;`}
-  ${(props) => !isEmpty(props.selectedDateColor) && `color: ${props.selectedDateColor};`}
-  ${(props) =>
-    !isEmpty(props.currentDateColor) && isEmpty(props.selectedDateColor) && `color: ${props.currentDateColor};`}
+  ${(props) => !isEmpty(props.isSelected) && `color: ${props.selectedColor};`}
+  ${(props) => !isEmpty(props.isCurrentDate) && isEmpty(props.isSelected) && `color: ${props.currentDateColor};`}
 `;
 
 export const TimeCardContainer = styled(BaseTouchableOpacity)<IStyledRNSlideCalendarDateCard>`
@@ -50,11 +53,15 @@ export const TimeCardContainer = styled(BaseTouchableOpacity)<IStyledRNSlideCale
   align-items: center;
   padding: 10px 15px;
   background-color: #fafafa;
+  border-width: 2px;
+  border-color: #fafafa;
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 6px;
   flex: 1;
   width: 100%;
   margin-bottom: 10px;
-  ${(props) => !isEmpty(props.selectedDateBgColor) && `background-color:${props.selectedDateBgColor};`}
+  ${(props) => !isEmpty(props.isSelected) && `background-color:${props.selectedBgColor};`}
+  ${(props) => !isEmpty(props.disabled) && `opacity:0.5;`}
+  ${(props) => !isEmpty(props.isBooked) && `border-color: ${props.selectedBgColor};`}
 `;
