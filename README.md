@@ -5,6 +5,11 @@ Main purpose of this module is taking appointment information from user.
 
 ## Installation
 
+##### With Yarn
+```
+yarn add react-native-appointment-calendar
+```
+##### With Npm
 ```
 yarn add react-native-appointment-calendar
 ```
@@ -56,7 +61,7 @@ import { RNAppointmentCalendar } from 'react-native-appointment-calendar';
 ```
 Here have multiple defined variables like `includeTimes`, `bookedTimes`, `selectedTimes`, `disabledDates`.
 This variables have for different purpose. If you want to just selecting specific time use to this `includeTime` variable for filter
-Or you just want to display booked times on calendar? Just use `bookedTimes`. But booked times have clickable property.
+Or you just want to display booked times on calendar? Just use `bookedTimes`. But `bookedTimes` have clickable property.
 
 #### Structures of Defined Variables
 
