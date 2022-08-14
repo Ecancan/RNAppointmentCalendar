@@ -1,6 +1,6 @@
 {
   "name": "@ecancan/react-native-appointment-calendar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "homepage": "https://github.com/ecancan/react-native-appointment-calendar#readme",
   "main": "lib/index.js",
@@ -33,6 +33,10 @@
     "test": "jest",
     "dev": "nodemon -e ts,tsx,js,jsx --watch 'src/**/*' --exec \"rm -rf lib && tsc -p .\""
   },
+  "dependencies": {
+    "moment": "^2.29.4",
+    "styled-components": "^5.3.5"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
@@ -58,7 +62,6 @@
     "typescript": "^4.4.4"
   },
   "peerDependencies": {
-    "moment": "*",
     "react": "*",
     "react-native": "*"
   },
