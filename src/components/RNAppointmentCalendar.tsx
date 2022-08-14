@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text, View, ViewStyle } from 'react-native';
 
 import { isEmpty, isNil } from '../utils/commonUtil';
 import {
@@ -28,6 +28,19 @@ export interface ITimes {
   isDisabled: boolean;
 }
 
+export interface IColors {
+  selectedBgColor?: string;
+  selectedColor?: string;
+  currentDateColor?: string;
+  disableOpacity?: number;
+}
+
+export interface IDateCardPosition {
+  key: 'dayOfWeek' | 'day' | 'month' | 'year';
+  isVisible: boolean;
+  fontSize: number;
+}
+
 export interface IRNSlideCalendar {
   date?: Date | string;
   format?: string;
@@ -40,9 +53,13 @@ export interface IRNSlideCalendar {
   withTimes?: boolean;
   isMultipleTimeSelect?: boolean;
   unSelectedTimeComponent?: ReactNode;
-  onDateSelect?: (date) => void;
-  onTimeSelect?: (time) => void;
-  onDateTimeSelect?: (dateTime) => void;
+  colors?: IColors;
+  dateCardPositions?: Array<IDateCardPosition>;
+  styleDateFlatList?: ViewStyle;
+  styleTimeFlatList?: ViewStyle;
+  onDateSelect?: (date: string) => void;
+  onTimeSelect?: (time: (string | undefined)[] | string) => void;
+  onDateTimeSelect?: (dateTime: ('' | undefined | string)[] | string) => void;
 }
 
 export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
@@ -59,6 +76,10 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
     withTimes = true,
     isMultipleTimeSelect = false,
     unSelectedTimeComponent,
+    colors,
+    dateCardPositions,
+    styleDateFlatList,
+    styleTimeFlatList,
     onDateSelect,
     onTimeSelect,
     onDateTimeSelect
@@ -74,7 +95,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
   const [activeDate, setActiveDate] = useState<Date | string | undefined>(
     !disabledDates?.includes(moment(date).format(_dateFormat).toString()) ? date : undefined
   );
-  const [activeTime, setActiveTime] = useState<String | undefined | Array<String | undefined>>(
+  const [activeTime, setActiveTime] = useState<string | undefined | Array<string | undefined>>(
     (activeDate && (isMultipleTimeSelect ? [moment(date).format('HH:mm')] : moment(date).format('HH:mm'))) || undefined
   );
 
@@ -88,7 +109,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
     prev
   }: {
     value: string | undefined;
-    prev?: String | (String | undefined)[] | undefined;
+    prev?: string | (string | undefined)[] | undefined;
   }) => {
     return isMultipleTimeSelect && prev && typeof prev !== 'string' ? [...prev, value] : value;
   };
@@ -99,7 +120,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
     setActiveTime(getValueAccordingByMultipleSelecting({ value: undefined, prev: [] }));
   };
 
-  const handleSetActiveTime = (prev, item) => {
+  const handleSetActiveTime = (prev: string | Array<string | undefined> | undefined, item: string) => {
     if (Array.isArray(prev) && prev.some((_item) => _item === item)) {
       return prev?.filter((_item) => _item !== item);
     }
@@ -126,7 +147,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
     [activeDate, selectedTimes]
   );
 
-  const checkSelectedTime = ({ time }) => {
+  const checkSelectedTime = ({ time }: { time: string }) => {
     if (isMultipleTimeSelect) {
       return activeTime?.includes(time) || isSelectedTime?.includes(time);
     }
@@ -146,7 +167,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
   };
 
   const generateCalendar = useMemo(() => {
-    let dates: Array<IDates> | undefined = [];
+    const dates: Array<IDates> | undefined = [];
     let year: number = initialYear;
 
     for (let m = initialMonth; m <= initialMonth + monthRange; m++) {
@@ -188,7 +209,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
   }, [activeDate]);
 
   const getTimeRanges = useCallback(
-    (interval) => {
+    (interval: number) => {
       const ranges: Array<ITimes> = [];
       const date = moment().toDate();
 
@@ -228,47 +249,29 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
 
     return (
       <StyledDateCard
-        selectedBgColor={'#328ae8'}
+        selectedBgColor={colors?.selectedBgColor}
         isSelected={isSelected}
         disabled={isDisabled}
+        disableOpacity={colors?.disableOpacity}
         onPress={() => handleDatePress({ item })}
       >
-        <BaseCardDateText
-          fontSize={12}
-          isSelected={isSelected}
-          selectedColor={'#FFFFFF'}
-          isCurrentDate={isCurrentDate}
-          currentDateColor={'#328ae8'}
-        >
-          {moment(`${year}-${month}-${day}`, _dateFormat).format('dd').toString()}
-        </BaseCardDateText>
-        <BaseCardDateText
-          fontSize={20}
-          isSelected={isSelected}
-          selectedColor={'#FFFFFF'}
-          isCurrentDate={isCurrentDate}
-          currentDateColor={'#328ae8'}
-        >
-          {day}
-        </BaseCardDateText>
-        <BaseCardDateText
-          fontSize={14}
-          isSelected={isSelected}
-          selectedColor={'#FFFFFF'}
-          isCurrentDate={isCurrentDate}
-          currentDateColor={'#328ae8'}
-        >
-          {month}
-        </BaseCardDateText>
-        <BaseCardDateText
-          fontSize={10}
-          isSelected={isSelected}
-          selectedColor={'#FFFFFF'}
-          isCurrentDate={isCurrentDate}
-          currentDateColor={'#328ae8'}
-        >
-          {year}
-        </BaseCardDateText>
+        {dateCardPositions?.map(
+          (_item, _index) =>
+            _item.isVisible && (
+              <BaseCardDateText
+                key={_index}
+                fontSize={_item.fontSize}
+                isSelected={isSelected}
+                selectedColor={colors?.selectedColor}
+                isCurrentDate={isCurrentDate}
+                currentDateColor={colors?.currentDateColor}
+              >
+                {_item.key === 'dayOfWeek'
+                  ? moment(`${year}-${month}-${day}`, _dateFormat).format('dd').toString()
+                  : item[_item.key]}
+              </BaseCardDateText>
+            )
+        )}
       </StyledDateCard>
     );
   };
@@ -280,11 +283,12 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
       <TimeCardContainer
         onPress={() => handleTimePress({ time })}
         isSelected={isSelected}
-        selectedBgColor={'#328ae8'}
+        selectedBgColor={colors?.selectedBgColor}
         isBooked={isBooked}
         disabled={isDisabled}
+        disableOpacity={colors?.disableOpacity}
       >
-        <BaseCardDateText fontSize={12} isSelected={isSelected} selectedColor={'#FFFFFF'}>
+        <BaseCardDateText fontSize={12} isSelected={isSelected} selectedColor={colors?.selectedColor}>
           {time}
         </BaseCardDateText>
       </TimeCardContainer>
@@ -301,7 +305,8 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
           horizontal={true}
           style={{
             marginBottom: 30,
-            flexGrow: 0
+            flexGrow: 0,
+            ...styleDateFlatList
           }}
         />
       </>
@@ -314,6 +319,7 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
               renderItem={renderTimeItem}
               horizontal={false}
               keyExtractor={(item) => item.id}
+              style={{ ...styleTimeFlatList }}
             />
           ) : !isEmpty(unSelectedTimeComponent) ? (
             { unSelectedTimeComponent }
@@ -326,4 +332,35 @@ export const RNAppointmentCalendar: FC<IRNSlideCalendar> = (props) => {
       )}
     </StyledRNAppointmentCalendarContainer>
   );
+};
+
+RNAppointmentCalendar.defaultProps = {
+  colors: {
+    selectedBgColor: '#328ae8',
+    selectedColor: '#FFFFFF',
+    currentDateColor: '#328ae8',
+    disableOpacity: 0.5
+  },
+  dateCardPositions: [
+    {
+      key: 'dayOfWeek',
+      isVisible: true,
+      fontSize: 12
+    },
+    {
+      key: 'day',
+      isVisible: true,
+      fontSize: 20
+    },
+    {
+      key: 'month',
+      isVisible: true,
+      fontSize: 14
+    },
+    {
+      key: 'year',
+      isVisible: true,
+      fontSize: 10
+    }
+  ]
 };

@@ -1,6 +1,12 @@
 module.exports = {
-  extends: ['@react-native-community', 'plugin:prettier/recommended'],
-  plugins: ['simple-import-sort'],
+  extends: [
+    '@react-native-community',
+    'plugin:prettier/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended'
+  ],
+  plugins: ['simple-import-sort', 'react'],
   root: true,
   rules: {
     'import/order': 'off',

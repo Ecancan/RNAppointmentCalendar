@@ -12,6 +12,7 @@ interface IStyledRNSlideCalendarDateCard {
   isBooked?: boolean;
   isSelected?: boolean;
   isCurrentDate?: boolean;
+  disabledOpacity?: number;
 }
 
 interface IStyledRNSlideCalendarDateCardText {
@@ -36,14 +37,15 @@ export const StyledDateCard = styled(BaseTouchableOpacity)<IStyledRNSlideCalenda
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 6px;
-  ${(props) => !isEmpty(props.isSelected) && `background-color:${props.selectedBgColor};`}
-  ${(props) => !isEmpty(props.disabled) && `opacity:0.5;`}
+  ${(props) => !isEmpty(props.isSelected) && `background-color:${props.selectedBgColor || '#328ae8'};`}
+  ${(props) => !isEmpty(props.disabled) && `opacity:${props.disabledOpacity || 0.5};`}
 `;
 
 export const BaseCardDateText = styled(Text)<IStyledRNSlideCalendarDateCardText>`
-  ${(props) => !isEmpty(props.fontSize) && `font-size: ${props.fontSize}px;`}
-  ${(props) => !isEmpty(props.isSelected) && `color: ${props.selectedColor};`}
-  ${(props) => !isEmpty(props.isCurrentDate) && isEmpty(props.isSelected) && `color: ${props.currentDateColor};`}
+  ${(props) => !isEmpty(props.fontSize) && `font-size: ${props.fontSize || 14}px;`}
+  ${(props) => !isEmpty(props.isSelected) && `color: ${props.selectedColor || '#FFFFFF'};`}
+  ${(props) =>
+    !isEmpty(props.isCurrentDate) && isEmpty(props.isSelected) && `color: ${props.currentDateColor || '#328ae8'};`}
 `;
 
 export const TimeCardContainer = styled(BaseTouchableOpacity)<IStyledRNSlideCalendarDateCard>`
@@ -61,7 +63,7 @@ export const TimeCardContainer = styled(BaseTouchableOpacity)<IStyledRNSlideCale
   flex: 1;
   width: 100%;
   margin-bottom: 10px;
-  ${(props) => !isEmpty(props.isSelected) && `background-color:${props.selectedBgColor};`}
-  ${(props) => !isEmpty(props.disabled) && `opacity:0.5;`}
-  ${(props) => !isEmpty(props.isBooked) && `border-color: ${props.selectedBgColor};`}
+  ${(props) => !isEmpty(props.isSelected) && `background-color:${props.selectedBgColor || '#328ae8'};`}
+  ${(props) => !isEmpty(props.disabled) && `opacity:${props.disabledOpacity || 0.5};`}
+  ${(props) => !isEmpty(props.isBooked) && `border-color: ${props.selectedBgColor || '#328ae8'};`}
 `;
