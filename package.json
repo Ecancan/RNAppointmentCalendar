@@ -1,6 +1,6 @@
 {
   "name": "react-native-appointment-calendar",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "homepage": "https://github.com/ecancan/react-native-appointment-calendar#readme",
   "main": "lib/index.js",
@@ -72,5 +72,8 @@
       "json",
       "node"
     ]
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   }
 }
