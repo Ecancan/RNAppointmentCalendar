@@ -5,8 +5,9 @@ information from user.
 
 ## Demo 
 
-![Alt Text](https://media.giphy.com/media/BZg4HDMgayzMxhEEN4/giphy.gif)
-
+![demo1](https://i.giphy.com/media/BZg4HDMgayzMxhEEN4/giphy.webp)
+![demo2](https://i.giphy.com/media/EAVFYBZLHIR7FZ0s2G/giphy.webp)
+![demo3](https://i.giphy.com/media/cw95zM4y1zGFL3tuk6/giphy.webp)
 
 ## Installation
 
