@@ -8,13 +8,13 @@ information from user.
 ##### With Yarn
 
 ```
-yarn add react-native-appointment-calendar
+yarn add @ecancan/react-native-appointment-calendar
 ```
 
 ##### With Npm
 
 ```
-npm install react-native-appointment-calendar
+npm install @ecancan/react-native-appointment-calendar
 ```
 
 This module just made with javascript. There isn't have any native module in this module. So no need any linking or pod
