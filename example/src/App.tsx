@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import { RNAppointmentCalendar } from 'react-native-appointment-calendar';
+import { RNAppointmentCalendar } from '@ecancan/react-native-appointment-calendar';
 
 const App = () => {
   const includeTimes = {
