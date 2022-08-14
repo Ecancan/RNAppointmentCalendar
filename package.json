@@ -1,5 +1,5 @@
 {
-  "name": "react-native-appointment-calendar",
+  "name": "@ecancan/react-native-appointment-calendar",
   "version": "0.0.1",
   "description": "",
   "homepage": "https://github.com/ecancan/react-native-appointment-calendar#readme",
@@ -73,11 +73,11 @@
       "node"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ecancan/RNAppointmentCalendar.git"
+  },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/Ecancan/RNAppointmentCalendar.git"
-    }
+    "registry":"https://npm.pkg.github.com/"
   }
 }
