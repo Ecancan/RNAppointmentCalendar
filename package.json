@@ -78,6 +78,6 @@
     "url": "https://github.com/Ecancan/RNAppointmentCalendar.git"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/"
   }
 }
