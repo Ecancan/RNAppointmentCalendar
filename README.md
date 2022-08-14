@@ -3,6 +3,11 @@
 This module is customizable react native appointment component. Main purpose of this module is taking appointment
 information from user.
 
+## Demo 
+
+![Alt Text](https://media.giphy.com/media/BZg4HDMgayzMxhEEN4/giphy.gif)
+
+
 ## Installation
 
 ##### With Yarn
